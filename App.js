@@ -18,11 +18,13 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
-import producrtsReducer from './src/store/reducers/products';
-import { combineReducers, createStore } from 'redux';
+import {combineReducers, createStore} from 'redux';
+
+import productsReducer from './src/store/reducers/products';
+import ShopNavigator from './src/navigation/shopNavigator'
 const rootReducer = combineReducers({
-  products:producrtsReducer
-})
+  products: productsReducer,
+});
 const store = createStore(rootReducer)
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,10 +35,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Text> App.js </Text>
-      </SafeAreaView>
+      <ShopNavigator /> 
     </Provider>
   );
 };

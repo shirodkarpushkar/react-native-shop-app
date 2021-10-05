@@ -2,6 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
+import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import {NavigationContainer} from '@react-navigation/native';
 
 const defaultScreenOptions = {
@@ -22,6 +23,7 @@ const ProductsNavigator = () => {
           title: 'Products',
         }}
       />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     </Stack.Navigator>
   );
 };

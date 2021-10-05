@@ -3,6 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
+import CartScreen from '../screens/shop/CartScreen';
+
 import {NavigationContainer} from '@react-navigation/native';
 
 const defaultScreenOptions = {
@@ -20,10 +22,11 @@ const ProductsNavigator = () => {
         name="ProductsOverview"
         component={ProductsOverviewScreen}
         options={{
-          title: 'Products',
+          title: 'All Products',
         }}
       />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
     </Stack.Navigator>
   );
 };

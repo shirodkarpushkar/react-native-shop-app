@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View, Button} from 'react-native';
 import {useSelector} from 'react-redux';
+import Colors from '../../constants/Colors';
 
 const ProductDetailsScreen = props => {
   const {productId} = props.route.params;
@@ -14,9 +15,14 @@ const ProductDetailsScreen = props => {
     });
   });
   return (
-    <View style={styles.screen}>
-      <Text>ProductDetailsScreen</Text>
-    </View>
+    <ScrollView>
+      <Image style={styles.image} source={{uri: product.imageUrl}} />
+      <View style={styles.actions}>
+        <Button color={Colors.primary} title="Add to Cart" onPress={() => {}} />
+      </View>
+      <Text style={styles.price}>${Number(product.price).toFixed(2)}</Text>
+      <Text style={styles.description}>{product.description}</Text>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -25,5 +31,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  image: {
+    width: '100%',
+    height: 300,
+    },
+    price: {
+        fontSize: 20,
+        color: "#888",
+        textAlign: "center",
+        marginVertical:20
+  },
+    description: {
+        fontSize: 14,
+        textAlign: "center",
+        marginHorizontal:20
+    },
+    actions: {
+        marginVertical: 10,
+        alignItems:"center"
+    }
 });
 export default ProductDetailsScreen;

@@ -11,6 +11,7 @@ export default (state = initialState, action) => {
       const price = product.price;
       const title = product.title;
       let cartItem = state.items.find(el => el.id === product.id);
+
       if (cartItem) {
         const updatedCartItem = new CartItem(
           cartItem.quantity + 1,
@@ -18,9 +19,14 @@ export default (state = initialState, action) => {
           cartItem.title,
           cartItem.sum + cartItem.price,
         );
-        cartItem = updatedCartItem;
+        const idx = state.items.findIndex(el => el.id === product.id);
+        const cartItems = [...state.items];
+        const filteredCartItems = cartItems.splice(idx, 1);
+       
+
         return {
           ...state,
+          items: [...filteredCartItems, updatedCartItem],
           totalAmount: state.totalAmount + price,
         };
       } else {

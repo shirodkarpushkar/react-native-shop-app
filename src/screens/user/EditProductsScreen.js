@@ -8,11 +8,13 @@ import {
   Platform,
 } from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import HeaderButton from '../../components/UI/HeaderButton';
+import * as productsActions from '../../store/actions/products';
 
 const EditProductScreen = props => {
-  const {productId} = props.route.params;
+  const productId = props.route.params.productId;
   const editedProduct = useSelector(state =>
     state.products.userProducts.find(prod => prod.id === productId),
   );
@@ -41,9 +43,30 @@ const EditProductScreen = props => {
       ),
     });
   });
-
+  const dispatch = useDispatch();
   const submitHandler = () => {
-    console.log('submitting');
+    const data = {
+      title,
+      price,
+      description,
+    };
+    console.log(
+      '🚀 ~ file: EditProductsScreen.js ~ line 49 ~ submitHandler ~ data',
+      data,
+    );
+
+    if (editedProduct) {
+      /* edit product */
+      dispatch(
+        productsActions.updateProduct(productId, title, description, imageUrl),
+      );
+    } else {
+      /* create new product */
+      dispatch(
+        productsActions.createProduct(title, description, imageUrl, price),
+      );
+    }
+    props.navigation.goBack();
   };
 
   return (

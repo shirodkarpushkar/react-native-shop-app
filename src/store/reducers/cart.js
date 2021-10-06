@@ -1,4 +1,4 @@
-import {ADD_TO_CART, REMOVE_FROM_CART} from '../actions/cart';
+import {ADD_TO_CART, EMPTY_CART, REMOVE_FROM_CART} from '../actions/cart';
 import CartItem from '../../models/cartItem';
 const initialState = {
   items: [],
@@ -65,7 +65,13 @@ export default (state = initialState, action) => {
           totalAmount: state.totalAmount - productToRemove.price,
         };
       }
-
+    case EMPTY_CART:
+      return {
+        ...state,
+        items: [],
+        totalAmount: 0,
+      };
+    
     default:
       return state;
   }

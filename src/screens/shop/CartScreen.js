@@ -6,6 +6,7 @@ import CartItem from '../../components/shop/cartItem';
 import {useDispatch} from 'react-redux';
 import { removeFromCart } from '../../store/actions/cart';
 import _ from 'lodash'
+import { addOrder } from '../../store/actions/orders';
 const CartScreen = props => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const stateItems =  useSelector(state => state.cart.items)
@@ -14,6 +15,9 @@ const CartScreen = props => {
   const removeCartItem = item => {
     dispatch(removeFromCart(item));
   };
+  const orderItems = () => {
+    dispatch(addOrder(cartItems, cartTotalAmount));
+  }
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
@@ -26,6 +30,7 @@ const CartScreen = props => {
         <Button
           color={Colors.accent}
           title="Order Now"
+          onPress={()=>orderItems()}
           disabled={!cartItems.length}
         />
       </View>

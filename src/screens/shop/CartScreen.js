@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/cartItem';
 import {useDispatch} from 'react-redux';
-import { removeFromCart } from '../../store/actions/cart';
+import { emptyCart, removeFromCart } from '../../store/actions/cart';
 import _ from 'lodash'
 import { addOrder } from '../../store/actions/orders';
 const CartScreen = props => {
@@ -17,6 +17,7 @@ const CartScreen = props => {
   };
   const orderItems = () => {
     dispatch(addOrder(cartItems, cartTotalAmount));
+    dispatch(emptyCart())
   }
   return (
     <View style={styles.screen}>

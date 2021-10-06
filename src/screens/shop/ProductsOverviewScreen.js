@@ -13,12 +13,21 @@ const ProductsOverviewScreen = props => {
     
     useEffect(() => {
       props.navigation.setOptions({
+        headerLeft: () => (
+          <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <Item
+              title="drawer"
+              iconName="ios-menu"
+              onPress={() => props.navigation.toggleDrawer()}
+            />
+          </HeaderButtons>
+        ),
         headerRight: () => (
           <HeaderButtons HeaderButtonComponent={HeaderButton}>
             <Item
               title="Cart"
               iconName="md-cart"
-              onPress={() => props.navigation.navigate("Cart")}
+              onPress={() => props.navigation.navigate('Cart')}
             />
           </HeaderButtons>
         ),

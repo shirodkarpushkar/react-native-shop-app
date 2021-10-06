@@ -27,13 +27,24 @@ const EditProductScreen = props => {
   );
   useEffect(() => {
     props.navigation.setOptions({
-      title: title,
+      title: editedProduct ? 'Edit Product' : 'Add Product',
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Save"
+            iconName={
+              Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'
+            }
+            onPress={() => submitHandler()}
+          />
+        </HeaderButtons>
+      ),
     });
-  },[title,props]);
+  });
 
-  const submitHandler = useCallback(() => {
-    console.log('Submitting!');
-  }, []);
+  const submitHandler = () => {
+    console.log('submitting');
+  };
 
   return (
     <ScrollView>

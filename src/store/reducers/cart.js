@@ -1,5 +1,6 @@
 import {ADD_TO_CART, EMPTY_CART, REMOVE_FROM_CART} from '../actions/cart';
 import CartItem from '../../models/cartItem';
+import {DELETE_PRODUCT} from '../actions/products';
 const initialState = {
   items: [],
   totalAmount: 0,
@@ -71,7 +72,23 @@ export default (state = initialState, action) => {
         items: [],
         totalAmount: 0,
       };
-    
+    case DELETE_PRODUCT:
+      const productExist = state.items.find(
+        el => el.title === action.product.title,
+      );
+
+      if (!productExist) {
+        return state;
+      }
+      let updatedItems = [...state.items];
+      const itemTotal = productExist.sum;
+      updatedItems = updatedItems.filter(el => el.title !== productExist.title);
+      return {
+        ...state,
+        items: updatedItems,
+        totalAmount: state.totalAmount - itemTotal,
+      };
+
     default:
       return state;
   }

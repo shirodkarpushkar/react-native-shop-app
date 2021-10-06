@@ -62,7 +62,7 @@ const UserProductsScreen = props => {
             color={Colors.primary}
             title="Delete"
             onPress={() => {
-              dispatch(productsActions.deleteProduct(item.id));
+              dispatch(productsActions.deleteProduct(item));
             }}
           />
         </ProductItem>

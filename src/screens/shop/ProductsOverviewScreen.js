@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View, Text} from 'react-native';
+import {FlatList, View, Text,Button} from 'react-native';
 import { HeaderButtons,Item } from 'react-navigation-header-buttons';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import HeaderButton from '../../components/UI/HeaderButton';
+import Colors from '../../constants/Colors';
 import * as cartActions from '../../store/actions/cart';
 
 const ProductsOverviewScreen = props => {
@@ -40,9 +41,20 @@ const ProductsOverviewScreen = props => {
         image={item.imageUrl}
         title={item.title}
         price={item.price}
-        onView={() => props.navigation.navigate("ProductDetails",{productId:item.id})}
-        onAddToCart={() => {dispatch(cartActions.addToCart(item))}}
-      />
+        >
+        <Button
+          color={Colors.primary}
+          title="View Details"
+          onPress={() =>
+            props.navigation.navigate('ProductDetails', {productId: item.id})
+          }
+        />
+        <Button
+          color={Colors.primary}
+          title="to Cart"
+          onPress={() => dispatch(cartActions.addToCart(item))}
+        />
+      </ProductItem>
     );
   };
 

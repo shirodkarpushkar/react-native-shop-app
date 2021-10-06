@@ -14,24 +14,19 @@ const ProductItem = props => {
   return (
     <View style={styles.product}>
       <View style={styles.touchable}>
-        <TouchableNativeFeedback onPress={props.onView}>
-          <Image source={{uri: props.image}} style={styles.image} />
-          <View style={styles.productDetails}>
-            <Text style={styles.title}>{props.title} </Text>
-            <Text style={styles.price}>${Number(props.price).toFixed(2)}</Text>
-          </View>
+        <TouchableNativeFeedback onPress={props.onView} useForeground>
+          <View>
+            <View style={styles.imageContainer}>
+              <Image style={styles.image} source={{uri: props.image}} />
+            </View>
+            <View style={styles.productDetails}>
+              <Text style={styles.title}>{props.title} </Text>
+              <Text style={styles.price}>
+                ${Number(props.price).toFixed(2)}
+              </Text>
+            </View>
 
-          <View style={styles.buttons}>
-            <Button
-              color={Colors.primary}
-              title="View Details"
-              onPress={props.onView}
-            />
-            <Button
-              color={Colors.primary}
-              title="to Cart"
-              onPress={props.onAddToCart}
-            />
+            <View style={styles.buttons}>{props.children}</View>
           </View>
         </TouchableNativeFeedback>
       </View>
@@ -53,11 +48,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 300,
     margin: 20,
+  
+  },
+  imageContainer: {
+    width: '100%',
+    height: '60%',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     overflow: 'hidden',
   },
   image: {
     width: '100%',
-    height: '60%',
+    height: '100%',
   },
   title: {
     fontSize: 18,
@@ -70,17 +72,19 @@ const styles = StyleSheet.create({
   },
   productDetails: {
     alignItems: 'center',
-    height: '20%',
+    height: '18%',
     padding: 10,
   },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    height: '20%',
+    height: '22%',
+    paddingHorizontal: 20,
+    
   },
   touchable: {
+    borderRadius: 10,
     overflow: 'hidden',
   },
 });

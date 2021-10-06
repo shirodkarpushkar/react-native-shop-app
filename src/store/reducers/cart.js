@@ -10,7 +10,8 @@ export default (state = initialState, action) => {
       const {product} = action;
       const price = product.price;
       const title = product.title;
-      let cartItem = state.items.find(el => el.id === product.id);
+      let cartItem = state.items.find(el => el.title === product.title);
+      console.log("🚀 ~ file: cart.js ~ line 14 ~ cartItem", cartItem)
 
       if (cartItem) {
         const updatedCartItem = new CartItem(
@@ -19,9 +20,10 @@ export default (state = initialState, action) => {
           cartItem.title,
           cartItem.sum + cartItem.price,
         );
-        const idx = state.items.findIndex(el => el.id === product.id);
-        const cartItems = [...state.items];
-        const filteredCartItems = cartItems.splice(idx, 1);
+       
+        const filteredCartItems = state.items.filter(
+          el => el.title !== product.title,
+        );
        
 
         return {

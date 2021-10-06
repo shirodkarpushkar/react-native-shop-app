@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, Button, Platform} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
@@ -15,36 +15,60 @@ const UserProductsScreen = props => {
   const editProductHandler = id => {
     props.navigation.navigate('EditProduct', {productId: id});
   };
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Menu"
+            iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
+            onPress={() => props.navigation.toggleDrawer()}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="create"
+            iconName={Platform.OS === 'android' ? 'md-create' : 'ios-create'}
+            onPress={() => {
+              props.navigation.navigate('EditProduct');
+            }}
+          />
+        </HeaderButtons>
+      ),
+    });
+  });
 
-    return (
-      <FlatList
-        data={userProducts}
-        renderItem={({item}) => (
-          <ProductItem
-            image={item.imageUrl}
-            title={item.title}
-            price={item.price}
-            onSelect={() => {
+  return (
+    <FlatList
+      data={userProducts}
+      renderItem={({item}) => (
+        <ProductItem
+          image={item.imageUrl}
+          title={item.title}
+          price={item.price}
+          onSelect={() => {
+            editProductHandler(item.id);
+          }}>
+          <Button
+            color={Colors.primary}
+            title="Edit"
+            onPress={() => {
               editProductHandler(item.id);
-            }}>
-            <Button
-              color={Colors.primary}
-              title="Edit"
-              onPress={() => {
-                editProductHandler(item.id);
-              }}
-            />
-            <Button
-              color={Colors.primary}
-              title="Delete"
-              onPress={() => {
-                dispatch(productsActions.deleteProduct(item.id));
-              }}
-            />
-          </ProductItem>
-        )}
-      />
-    );
+            }}
+          />
+          <Button
+            color={Colors.primary}
+            title="Delete"
+            onPress={() => {
+              dispatch(productsActions.deleteProduct(item.id));
+            }}
+          />
+        </ProductItem>
+      )}
+    />
+  );
 };
 
 export default UserProductsScreen;

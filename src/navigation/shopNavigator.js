@@ -6,6 +6,8 @@ import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 
+import UserProductsScreen from '../screens/user/UserProductsScreen';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
@@ -48,6 +50,21 @@ const OrdersNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const AdminNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen
+        name="UserProducts"
+        component={UserProductsScreen}
+        options={{
+          title: 'Your Products',
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
@@ -71,6 +88,16 @@ const DrawerNavigator = () => {
           title: 'Your Orders',
           drawerIcon: config => (
             <Icon size={23} color={config.color} name="md-list" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Admin"
+        component={AdminNavigator}
+        options={{
+          title: 'Admin',
+          drawerIcon: config => (
+            <Icon size={23} color={config.color} name="md-create" />
           ),
         }}
       />

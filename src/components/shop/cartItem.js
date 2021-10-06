@@ -11,6 +11,7 @@ import Colors from '../../constants/Colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const CartItem = props => {
+   
   return (
     <View style={styles.cartItem}>
       <View style={styles.itemData}>
@@ -19,9 +20,11 @@ const CartItem = props => {
       </View>
       <View style={styles.itemData}>
         <Text style={styles.amount}>${Number(props.amount).toFixed(2)}</Text>
-        <TouchableOpacity onPress={props.onRemove} style={styles.deleteBtn}>
-          <Icon name="md-trash" size={23} color="red" />
-        </TouchableOpacity>
+        {props.deletable && (
+          <TouchableOpacity onPress={props.onRemove} style={styles.deleteBtn}>
+            <Icon name="md-trash" size={23} color="red" />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

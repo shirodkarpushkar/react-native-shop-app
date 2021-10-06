@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, View, Text, StyleSheet} from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useSelector} from 'react-redux';
+import OrderItem from '../../components/shop/orderItem';
 import HeaderButton from '../../components/UI/HeaderButton';
 
 const OrdersScreen = props => {
-    const orders = useSelector(state => state.orders.orders);
-    useEffect(() => {
-      props.navigation.setOptions({
-        headerLeft: () => (
-          <HeaderButtons HeaderButtonComponent={HeaderButton}>
-            <Item
-              title="drawer"
-              iconName="ios-menu"
-              onPress={() => props.navigation.toggleDrawer()}
-            />
-          </HeaderButtons>
-        ),
-      });
+  const orders = useSelector(state => state.orders.orders);
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="drawer"
+            iconName="ios-menu"
+            onPress={() => props.navigation.toggleDrawer()}
+          />
+        </HeaderButtons>
+      ),
     });
+  });
   if (!orders.length) {
     return (
       <View style={styles.screen}>
@@ -30,9 +31,12 @@ const OrdersScreen = props => {
     <FlatList
       data={orders}
       renderItem={({item}) => (
-        <View>
-          <Text>{item.totalAmount}</Text>
-        </View>
+        <OrderItem
+          amount={item.totalAmount}
+          date={item.readableDate}
+          items={item.items}
+         
+        />
       )}
     />
   );

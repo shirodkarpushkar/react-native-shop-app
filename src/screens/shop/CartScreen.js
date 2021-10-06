@@ -31,7 +31,7 @@ const CartScreen = props => {
         <Button
           color={Colors.accent}
           title="Order Now"
-          onPress={()=>orderItems()}
+          onPress={() => orderItems()}
           disabled={!cartItems.length}
         />
       </View>
@@ -43,6 +43,7 @@ const CartScreen = props => {
             title={item.title}
             amount={item.sum}
             onRemove={() => removeCartItem(item)}
+            deletable={true}
           />
         )}
       />

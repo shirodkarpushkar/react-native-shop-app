@@ -3,16 +3,22 @@ import {StyleSheet, View, Text, Button, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/cartItem';
+import {useDispatch} from 'react-redux';
+import {removeFromCart} from '../../store/actions/cart';
 const CartScreen = props => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => state.cart.items);
+  const dispatch = useDispatch();
+  const removeCartItem = item => {
+    dispatch(removeFromCart(item));
+  };
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:{' '}
           <Text style={styles.amount}>
-            ${Number(cartTotalAmount).toFixed(2)}
+            ${Number(cartTotalAmount <= 0 ? 0 : cartTotalAmount).toFixed(2)}
           </Text>
         </Text>
         <Button
@@ -28,7 +34,7 @@ const CartScreen = props => {
             quantity={item.quantity}
             title={item.title}
             amount={item.sum}
-            onRemove={() => {}}
+            onRemove={() => removeCartItem(item)}
           />
         )}
       />

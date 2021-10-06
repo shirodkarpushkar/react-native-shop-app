@@ -1,4 +1,4 @@
-import {ADD_TO_CART} from '../actions/cart';
+import {ADD_TO_CART, REMOVE_FROM_CART} from '../actions/cart';
 import CartItem from '../../models/cartItem';
 const initialState = {
   items: [],
@@ -11,7 +11,6 @@ export default (state = initialState, action) => {
       const price = product.price;
       const title = product.title;
       let cartItem = state.items.find(el => el.title === product.title);
-      console.log("🚀 ~ file: cart.js ~ line 14 ~ cartItem", cartItem)
 
       if (cartItem) {
         const updatedCartItem = new CartItem(
@@ -20,11 +19,10 @@ export default (state = initialState, action) => {
           cartItem.title,
           cartItem.sum + cartItem.price,
         );
-       
+
         const filteredCartItems = state.items.filter(
           el => el.title !== product.title,
         );
-       
 
         return {
           ...state,
@@ -37,6 +35,34 @@ export default (state = initialState, action) => {
           ...state,
           items: [...state.items, newCartItem],
           totalAmount: state.totalAmount + price,
+        };
+      }
+    case REMOVE_FROM_CART:
+      const productToRemove = action.product;
+      if (productToRemove.quantity > 1) {
+        const updatedCItem = new CartItem(
+          productToRemove.quantity - 1,
+          productToRemove.price,
+          productToRemove.title,
+          productToRemove.sum - productToRemove.price,
+        );
+        const filterItems = state.items.filter(
+          el => el.title !== productToRemove.title,
+        );
+
+        return {
+          ...state,
+          items: [...filterItems, updatedCItem],
+          totalAmount: state.totalAmount - productToRemove.price,
+        };
+      } else {
+        const filteredItems = state.items.filter(
+          el => el.title !== productToRemove.title,
+        );
+        return {
+          ...state,
+          items: [...filteredItems],
+          totalAmount: state.totalAmount - productToRemove.price,
         };
       }
 

@@ -9,6 +9,8 @@ import OrdersScreen from '../screens/shop/OrdersScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 const defaultScreenOptions = {
   headerStyle: {
     backgroundColor: Colors.primary,
@@ -33,6 +35,19 @@ const ProductsNavigator = () => {
     </Stack.Navigator>
   );
 };
+const OrdersNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={{
+          title: 'Your Orders',
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
@@ -44,13 +59,19 @@ const DrawerNavigator = () => {
         component={ProductsNavigator}
         options={{
           title: 'All Products',
+          drawerIcon: config => (
+            <Icon size={23} color={config.color} name="md-cart" />
+          ),
         }}
       />
       <Drawer.Screen
         name="OrdersOverview"
-        component={OrdersScreen}
+        component={OrdersNavigator}
         options={{
           title: 'Your Orders',
+          drawerIcon: config => (
+            <Icon size={23} color={config.color} name="md-list" />
+          ),
         }}
       />
     </Drawer.Navigator>

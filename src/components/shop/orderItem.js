@@ -16,7 +16,7 @@ const OrderItem = props => {
 
       <Button
         color={Colors.primary}
-        title="Show details"
+        title={!showDetails ? 'Show details' : 'Hide details'}
         onPress={() => setShowDetails(prevState => !prevState)}
       />
       {showDetails && (

@@ -12,6 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import EditProductScreen from '../screens/user/EditProductsScreen';
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -61,6 +62,7 @@ const AdminNavigator = () => {
           title: 'Your Products',
         }}
       />
+      <Stack.Screen name="EditProduct" component={EditProductScreen} />
     </Stack.Navigator>
   );
 };

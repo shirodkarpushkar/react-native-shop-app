@@ -12,9 +12,9 @@ import {useSelector} from 'react-redux';
 import HeaderButton from '../../components/UI/HeaderButton';
 
 const EditProductScreen = props => {
-  const prodId = props.navigation.getParam('productId');
+  const {productId} = props.route.params;
   const editedProduct = useSelector(state =>
-    state.products.userProducts.find(prod => prod.id === prodId),
+    state.products.userProducts.find(prod => prod.id === productId),
   );
 
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
@@ -25,14 +25,15 @@ const EditProductScreen = props => {
   const [description, setDescription] = useState(
     editedProduct ? editedProduct.description : '',
   );
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: title,
+    });
+  },[title,props]);
 
   const submitHandler = useCallback(() => {
     console.log('Submitting!');
   }, []);
-
-  useEffect(() => {
-    props.navigation.setParams({submit: submitHandler});
-  }, [submitHandler]);
 
   return (
     <ScrollView>

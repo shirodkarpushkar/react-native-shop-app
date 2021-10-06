@@ -4,10 +4,12 @@ import {useSelector} from 'react-redux';
 import Colors from '../../constants/Colors';
 import CartItem from '../../components/shop/cartItem';
 import {useDispatch} from 'react-redux';
-import {removeFromCart} from '../../store/actions/cart';
+import { removeFromCart } from '../../store/actions/cart';
+import _ from 'lodash'
 const CartScreen = props => {
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
-  const cartItems = useSelector(state => state.cart.items);
+  const stateItems =  useSelector(state => state.cart.items)
+  const cartItems = _.sortBy(stateItems,"title","asc");
   const dispatch = useDispatch();
   const removeCartItem = item => {
     dispatch(removeFromCart(item));

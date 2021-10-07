@@ -78,6 +78,8 @@ const EditProductScreen = props => {
             style={styles.input}
             value={title}
             onChangeText={text => setTitle(text)}
+            autoCapitalize="sentences"
+           
           />
         </View>
         <View style={styles.formControl}>

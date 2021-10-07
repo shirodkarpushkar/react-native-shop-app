@@ -18,7 +18,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
-import {combineReducers, createStore} from 'redux';
+import {combineReducers, createStore ,applyMiddleware} from 'redux';
+import ReduxThunk from 'redux-thunk'
 
 import productsReducer from './src/store/reducers/products';
 import cartReducer from './src/store/reducers/cart';
@@ -29,7 +30,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   orders: ordersReducer,
 });
-const store = createStore(rootReducer)
+const store = createStore(rootReducer,applyMiddleware(ReduxThunk))
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 

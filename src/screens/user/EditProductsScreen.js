@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useDispatch} from 'react-redux';
@@ -137,62 +138,70 @@ const EditProductScreen = props => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.form}>
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Title</Text>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.title}
-            onChangeText={text => textChangeHandler('title', text)}
-            autoCapitalize="sentences"
-          />
-          {!formState.inputValidities.title && (
-            <Text> This field is required. </Text>
-          )}
-        </View>
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Image URL</Text>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.imageUrl}
-            onChangeText={text => textChangeHandler('imageUrl', text)}
-          />
-          {!formState.inputValidities.imageUrl && (
-            <Text> This field is required. </Text>
-          )}
-        </View>
-        {editedProduct ? null : (
+    <KeyboardAvoidingView style={styles.keyboard}>
+      <ScrollView>
+        <View style={styles.form}>
           <View style={styles.formControl}>
-            <Text style={styles.label}>Price</Text>
+            <Text style={styles.label}>Title</Text>
             <TextInput
               style={styles.input}
-              value={formState.inputValues.price}
-              onChangeText={text => textChangeHandler('price', text)}
-              keyboardType="decimal-pad"
+              value={formState.inputValues.title}
+              onChangeText={text => textChangeHandler('title', text)}
+              autoCapitalize="sentences"
             />
-            {!formState.inputValidities.price && (
-              <Text> This field is required. </Text>
+            {!formState.inputValidities.title && (
+              <Text style={styles.errorText}> This field is required. </Text>
             )}
           </View>
-        )}
-        <View style={styles.formControl}>
-          <Text style={styles.label}>Description</Text>
-          <TextInput
-            style={styles.input}
-            value={formState.inputValues.description}
-            onChangeText={text => textChangeHandler('description', text)}
-          />
-          {!formState.inputValidities.description && (
-            <Text> This field is required. </Text>
+          <View style={styles.formControl}>
+            <Text style={styles.label}>Image URL</Text>
+            <TextInput
+              style={styles.input}
+              value={formState.inputValues.imageUrl}
+              onChangeText={text => textChangeHandler('imageUrl', text)}
+            />
+            {!formState.inputValidities.imageUrl && (
+              <Text style={styles.errorText}> This field is required. </Text>
+            )}
+          </View>
+          {editedProduct ? null : (
+            <View style={styles.formControl}>
+              <Text style={styles.label}>Price</Text>
+              <TextInput
+                style={styles.input}
+                value={formState.inputValues.price}
+                onChangeText={text => textChangeHandler('price', text)}
+                keyboardType="decimal-pad"
+              />
+              {!formState.inputValidities.price && (
+                <Text style={styles.errorText}> This field is required. </Text>
+              )}
+            </View>
           )}
+          <View style={styles.formControl}>
+            <Text style={styles.label}>Description</Text>
+            <TextInput
+              style={styles.input}
+              value={formState.inputValues.description}
+              onChangeText={text => textChangeHandler('description', text)}
+              multiline
+              numberOfLines={3}
+              returnKeyType="done"
+            />
+            {!formState.inputValidities.description && (
+              <Text style={styles.errorText}> This field is required. </Text>
+            )}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  keyboard: {
+    flex: 1,
+  },
   form: {
     margin: 20,
   },
@@ -208,6 +217,9 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
+  },
+  errorText: {
+    color: 'red',
   },
 });
 export default EditProductScreen;

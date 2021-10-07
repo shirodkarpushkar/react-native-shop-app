@@ -3,6 +3,7 @@ import Product from '../../models/product';
 import {
   CREATE_PRODUCT,
   DELETE_PRODUCT,
+  SET_PRODUCTS,
   UPDATE_PRODUCT,
 } from '../actions/products';
 
@@ -12,6 +13,12 @@ const initialState = {
 };
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_PRODUCTS:
+      return {
+        ...state,
+        userProducts: action.products,
+        availableProducts: action.products,
+      };
     case DELETE_PRODUCT:
       const {id} = action.product;
       console.log('🚀 ~ file: products.js ~ line 12 ~ id', id);
@@ -28,7 +35,7 @@ export default (state = initialState, action) => {
       };
     case CREATE_PRODUCT:
       const newProduct = new Product(
-        Date.now().toString(),
+        action.product.id,
         'u1',
         action.product.title,
         action.product.imageUrl,

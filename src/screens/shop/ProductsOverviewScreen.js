@@ -7,11 +7,12 @@ import ProductItem from '../../components/shop/ProductItem';
 import HeaderButton from '../../components/UI/HeaderButton';
 import Colors from '../../constants/Colors';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = props => {
     const products = useSelector(state => state.products.availableProducts);
     const dispatch = useDispatch()
-    
+  
     useEffect(() => {
       props.navigation.setOptions({
         headerLeft: () => (
@@ -34,6 +35,9 @@ const ProductsOverviewScreen = props => {
         ),
       });
     });
+  useEffect(() => {
+    dispatch(productActions.fetchProducts());
+  },[dispatch]);
 
   const listItemRender = ({item}) => {
     return (

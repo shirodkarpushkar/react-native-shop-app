@@ -1,4 +1,4 @@
-import Product from "../../models/product";
+import Product from '../../models/product';
 
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT';
@@ -7,23 +7,26 @@ export const SET_PRODUCTS = 'SET_PRODUCTS';
 
 export const fetchProducts = () => {
   return async dispatch => {
-    const response = await fetch(
-      'https://rn-shop-app-7921f-default-rtdb.firebaseio.com/products.json',
-    );
-    const res = await response.json();
-    const products = Object.keys(res).map(
-      id =>
-        new Product(
-          id,
-          'u1',
-          res[id].title,
-          res[id].imageUrl,
-          res[id].description,
-          res[id].price,
-        ),
-    );
-    dispatch({ type: SET_PRODUCTS, products });
-    console.log('dispatch')
+    try {
+      const response = await fetch(
+        'https://rn-shop-app-7921f-default-rtdb.firebaseio.com/products.json',
+      );
+      const res = await response.json();
+      const products = Object.keys(res).map(
+        id =>
+          new Product(
+            id,
+            'u1',
+            res[id].title,
+            res[id].imageUrl,
+            res[id].description,
+            res[id].price,
+          ),
+      );
+      dispatch({type: SET_PRODUCTS, products});
+    } catch (error) {
+      throw error;
+    }
   };
 };
 

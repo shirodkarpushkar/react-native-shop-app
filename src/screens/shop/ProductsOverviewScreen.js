@@ -45,8 +45,16 @@ const ProductsOverviewScreen = props => {
   });
   useEffect(() => {
     const loadProducts = async () => {
-      setLoader(true);
-      await dispatch(productActions.fetchProducts());
+      try {
+        setLoader(true);
+        await dispatch(productActions.fetchProducts());
+      } catch (error) {
+        console.log(
+          '🚀 ~ file: ProductsOverviewScreen.js ~ line 52 ~ loadProducts ~ error',
+          error,
+        );
+      }
+
       setLoader(false);
     };
     loadProducts();

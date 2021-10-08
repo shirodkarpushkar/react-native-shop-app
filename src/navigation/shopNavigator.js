@@ -1,12 +1,14 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Colors from '../constants/Colors';
+
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import AuthScreen from '../screens/user/AuthScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -22,6 +24,7 @@ const defaultScreenOptions = {
 };
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
 
 const ProductsNavigator = () => {
   return (
@@ -106,6 +109,20 @@ const DrawerNavigator = () => {
     </Drawer.Navigator>
   );
 };
+
+const AuthNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={defaultScreenOptions}>
+      <Stack.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{
+          title: 'Login',
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 const Container = () => {
   return (

@@ -46,7 +46,7 @@ const ProductsOverviewScreen = props => {
   const loadProducts = useCallback(async () => {
     try {
       setLoader(true);
-      console.log('mounted');
+      console.log('load products');
       await dispatch(productActions.fetchProducts());
     } catch (error) {
       console.log('🚀 loadProducts ~ error', error);

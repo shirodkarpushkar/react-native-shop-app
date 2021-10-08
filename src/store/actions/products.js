@@ -31,7 +31,15 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = product => {
-  return {type: DELETE_PRODUCT, product};
+  return async dispatch => {
+    const id = product.id;
+    const response = await fetch(`${serverURL}/products/${id}.json`, {
+      method: 'DELETE',
+    });
+    const res = await response.json();
+
+    dispatch({type: DELETE_PRODUCT, product});
+  };
 };
 export const createProduct = (title, description, imageUrl, price) => {
   return async dispatch => {
@@ -71,7 +79,7 @@ export const updateProduct = (id, title, description, imageUrl) => {
       body: JSON.stringify(data),
     });
     const res = await response.json();
-    data.id = id
+    data.id = id;
     dispatch({
       type: UPDATE_PRODUCT,
       product: data,

@@ -5,12 +5,12 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 
+const serverURL = 'https://rn-shop-app-7921f-default-rtdb.firebaseio.com';
+
 export const fetchProducts = () => {
   return async dispatch => {
     try {
-      const response = await fetch(
-        'https://rn-shop-app-7921f-default-rtdb.firebaseio.com/products.json',
-      );
+      const response = await fetch(`${serverURL}/products.json`);
       const res = await response.json();
       const products = Object.keys(res).map(
         id =>
@@ -41,21 +41,14 @@ export const createProduct = (title, description, imageUrl, price) => {
       imageUrl,
       price,
     };
-    const response = await fetch(
-      'https://rn-shop-app-7921f-default-rtdb.firebaseio.com/products.json',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+    const response = await fetch(`${serverURL}/products.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(data),
+    });
     const res = await response.json();
-    console.log(
-      '🚀 ~ file: products.js ~ line 26 ~ returnasync ~ result',
-      res.name,
-    );
     data.id = res.name;
     dispatch({
       type: CREATE_PRODUCT,
@@ -64,13 +57,24 @@ export const createProduct = (title, description, imageUrl, price) => {
   };
 };
 export const updateProduct = (id, title, description, imageUrl) => {
-  return {
-    type: UPDATE_PRODUCT,
-    product: {
-      id,
+  return async dispatch => {
+    const data = {
       title,
       description,
       imageUrl,
-    },
+    };
+    const response = await fetch(`${serverURL}/products/${id}.json`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const res = await response.json();
+    data.id = id
+    dispatch({
+      type: UPDATE_PRODUCT,
+      product: data,
+    });
   };
 };

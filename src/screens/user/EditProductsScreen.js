@@ -8,11 +8,13 @@ import {
   Platform,
   Alert,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import HeaderButton from '../../components/UI/HeaderButton';
+import Colors from '../../constants/Colors';
 import * as productsActions from '../../store/actions/products';
 
 const FORM_UPDATE = 'UPDATE';
@@ -48,6 +50,8 @@ const EditProductScreen = props => {
   const editedProduct = useSelector(state =>
     state.products.userProducts.find(prod => prod.id === productId),
   );
+
+  const [loader, setLoader] = useState(false);
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
@@ -98,19 +102,16 @@ const EditProductScreen = props => {
       input,
     });
   };
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (formState.formIsValid) {
       const data = {
         ...formState.inputValues,
       };
-      console.log(
-        '🚀 ~ file: EditProductsScreen.js ~ line 49 ~ submitHandler ~ data',
-        data,
-      );
+      setLoader(true);
 
       if (editedProduct) {
         /* edit product */
-        dispatch(
+        await dispatch(
           productsActions.updateProduct(
             productId,
             data.title,
@@ -120,7 +121,7 @@ const EditProductScreen = props => {
         );
       } else {
         /* create new product */
-        dispatch(
+        await dispatch(
           productsActions.createProduct(
             data.title,
             data.description,
@@ -129,6 +130,8 @@ const EditProductScreen = props => {
           ),
         );
       }
+      setLoader(true);
+
       props.navigation.goBack();
     } else {
       Alert.alert('Invalid Form!', ' Please check your input', [
@@ -136,6 +139,15 @@ const EditProductScreen = props => {
       ]);
     }
   };
+  
+  
+  if (loader) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView style={styles.keyboard}>
@@ -220,6 +232,11 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default EditProductScreen;

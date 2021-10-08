@@ -1,7 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View, Text,Button} from 'react-native';
-import { HeaderButtons,Item } from 'react-navigation-header-buttons';
-import { useDispatch } from 'react-redux';
+import {
+  FlatList,
+  View,
+  Text,
+  Button,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
 import ProductItem from '../../components/shop/ProductItem';
 import HeaderButton from '../../components/UI/HeaderButton';
@@ -10,42 +17,52 @@ import * as cartActions from '../../store/actions/cart';
 import * as productActions from '../../store/actions/products';
 
 const ProductsOverviewScreen = props => {
-    const products = useSelector(state => state.products.availableProducts);
-    const dispatch = useDispatch()
-  
-    useEffect(() => {
-      props.navigation.setOptions({
-        headerLeft: () => (
-          <HeaderButtons HeaderButtonComponent={HeaderButton}>
-            <Item
-              title="drawer"
-              iconName="ios-menu"
-              onPress={() => props.navigation.toggleDrawer()}
-            />
-          </HeaderButtons>
-        ),
-        headerRight: () => (
-          <HeaderButtons HeaderButtonComponent={HeaderButton}>
-            <Item
-              title="Cart"
-              iconName="md-cart"
-              onPress={() => props.navigation.navigate('Cart')}
-            />
-          </HeaderButtons>
-        ),
-      });
-    });
+  const products = useSelector(state => state.products.availableProducts);
+  const [loader, setLoader] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(productActions.fetchProducts());
-  },[dispatch]);
+    props.navigation.setOptions({
+      headerLeft: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="drawer"
+            iconName="ios-menu"
+            onPress={() => props.navigation.toggleDrawer()}
+          />
+        </HeaderButtons>
+      ),
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Cart"
+            iconName="md-cart"
+            onPress={() => props.navigation.navigate('Cart')}
+          />
+        </HeaderButtons>
+      ),
+    });
+  });
+  useEffect(() => {
+    const loadProducts = async () => {
+      setLoader(true);
+      await dispatch(productActions.fetchProducts());
+      setLoader(false);
+    };
+    loadProducts();
+  }, [dispatch]);
+
+  if (loader) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   const listItemRender = ({item}) => {
     return (
-      <ProductItem
-        image={item.imageUrl}
-        title={item.title}
-        price={item.price}
-        >
+      <ProductItem image={item.imageUrl} title={item.title} price={item.price}>
         <Button
           color={Colors.primary}
           title="View Details"
@@ -64,4 +81,13 @@ const ProductsOverviewScreen = props => {
 
   return <FlatList data={products} renderItem={listItemRender} />;
 };
+
+const styles = StyleSheet.create({
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
 export default ProductsOverviewScreen;

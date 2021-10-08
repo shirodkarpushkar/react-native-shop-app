@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   View,
@@ -43,22 +43,23 @@ const ProductsOverviewScreen = props => {
       ),
     });
   });
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoader(true);
-        await dispatch(productActions.fetchProducts());
-      } catch (error) {
-        console.log(
-          '🚀 ~ file: ProductsOverviewScreen.js ~ line 52 ~ loadProducts ~ error',
-          error,
-        );
-      }
+  const loadProducts = useCallback(async () => {
+    try {
+      setLoader(true);
+      console.log('mounted');
+      await dispatch(productActions.fetchProducts());
+    } catch (error) {
+      console.log('🚀 loadProducts ~ error', error);
+    }
+    setLoader(false);
+  }, [dispatch, setLoader]);
 
-      setLoader(false);
-    };
-    loadProducts();
-  }, [dispatch]);
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', loadProducts);
+    console.log('focus');
+    return () => unsubscribe;
+    
+  }, [loadProducts, props.navigation]);
 
   if (loader) {
     return (

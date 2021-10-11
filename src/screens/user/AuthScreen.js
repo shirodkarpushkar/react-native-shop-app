@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -7,8 +7,9 @@ import {
   Button,
   TextInput,
   Text,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
-
 
 import Colors from '../../constants/Colors';
 import Card from '../../components/UI/Card';
@@ -45,6 +46,7 @@ const formReducer = (state, action) => {
 
 const AuthScreen = props => {
   const dispatch = useDispatch();
+  const [btnloader, setBtnloader] = useState(false);
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
@@ -69,21 +71,30 @@ const AuthScreen = props => {
     [dispatchFormState],
   );
 
-  const signinHandler = () => {
-    console.log(
-      '🚀 ~ file: AuthScreen.js ~ line 77 ~ signinHandler ~ formState.inputValues.email',
-      formState.inputValues.email,
-    );
+  const signinHandler = async () => {
+    if (formState.formIsValid) {
+      setBtnloader(true);
+      try {
+        await dispatch(
+          authActions.login(
+            formState.inputValues.email,
+            formState.inputValues.password,
+          ),
+        );
+      } catch (e) {
+        console.log(e.toString())
+        Alert.alert('Invalid Login Credentials!', e.message, [{text: 'Okay'}]);
+      }
 
-    dispatch(
-      authActions.signup(
-        formState.inputValues.email,
-        formState.inputValues.password,
-      ),
-    );
+      setBtnloader(false);
+    } else {
+      Alert.alert('Invalid Form!', ' Please check your input', [
+        {text: 'Okay'},
+      ]);
+    }
   };
   const register = () => {
-    props.navigation.navigate("SignUp")
+    props.navigation.navigate('SignUp');
   };
   return (
     <KeyboardAvoidingView style={styles.screen}>
@@ -114,11 +125,15 @@ const AuthScreen = props => {
               initialValue=""
             />
             <View style={styles.buttonContainer}>
-              <Button
-                title="Login"
-                color={Colors.primary}
-                onPress={() => signinHandler()}
-              />
+              {btnloader ? (
+                <ActivityIndicator color={Colors.primary} />
+              ) : (
+                <Button
+                  title="Login"
+                  color={Colors.primary}
+                  onPress={() => signinHandler()}
+                />
+              )}
             </View>
             <View style={styles.buttonContainer}>
               <Button

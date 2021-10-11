@@ -7,6 +7,7 @@ import {
   Button,
   TextInput,
   Text,
+  Alert,
 } from 'react-native';
 
 import Colors from '../../constants/Colors';
@@ -69,12 +70,18 @@ const SignupScreen = props => {
   );
 
   const signupHandler = () => {
-    dispatch(
-      authActions.signup(
-        formState.inputValues.email,
-        formState.inputValues.password,
-      ),
-    );
+    if (formState.formIsValid) {
+      dispatch(
+        authActions.signup(
+          formState.inputValues.email,
+          formState.inputValues.password,
+        ),
+      );
+    } else {
+      Alert.alert('Invalid Form!', ' Please check your input', [
+        {text: 'Okay'},
+      ]);
+    }
   };
   return (
     <KeyboardAvoidingView style={styles.screen}>

@@ -11,7 +11,7 @@ export const signup = (email, password) => {
         password,
         returnSecureToken: true,
       };
- 
+
       const res = await fetch(signupURL, {
         method: 'POST',
         headers: {
@@ -36,7 +36,7 @@ export const login = (email, password) => {
         password,
         returnSecureToken: true,
       };
-   
+
       const res = await fetch(signinURL, {
         method: 'POST',
         headers: {
@@ -45,6 +45,11 @@ export const login = (email, password) => {
         body: JSON.stringify(data),
       });
       const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error.message);
+      }
+
       console.log('🚀 ~ file: auth.js ~ line 19 ~ return ~ result', result);
 
       dispatch({type: LOGIN});

@@ -31,25 +31,31 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = product => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+
     const id = product.id;
-    const response = await fetch(`${serverURL}/products/${id}.json`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `${serverURL}/products/${id}.json?auth=${token}`,
+      {
+        method: 'DELETE',
+      },
+    );
     const res = await response.json();
 
     dispatch({type: DELETE_PRODUCT, product});
   };
 };
 export const createProduct = (title, description, imageUrl, price) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token
     const data = {
       title,
       description,
       imageUrl,
       price,
     };
-    const response = await fetch(`${serverURL}/products.json`, {
+    const response = await fetch(`${serverURL}/products.json?auth=${token}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -65,19 +71,24 @@ export const createProduct = (title, description, imageUrl, price) => {
   };
 };
 export const updateProduct = (id, title, description, imageUrl) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+
     const data = {
       title,
       description,
       imageUrl,
     };
-    const response = await fetch(`${serverURL}/products/${id}.json`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `${serverURL}/products/${id}.json?auth=${token}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       },
-      body: JSON.stringify(data),
-    });
+    );
     const res = await response.json();
     data.id = id;
     dispatch({

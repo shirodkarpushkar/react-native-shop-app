@@ -50,7 +50,7 @@ export const login = (email, password) => {
         throw new Error(result.error.message);
       }
 
-      console.log('🚀 ~ file: auth.js ~ line 19 ~ return ~ result', result);
+ 
       const token = result.idToken;
       const userId = result.localId;
       dispatch({type: LOGIN, token, userId});

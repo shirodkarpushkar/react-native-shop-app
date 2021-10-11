@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
           cartItem.quantity + 1,
           cartItem.price,
           cartItem.title,
-          cartItem.sum + cartItem.price,
+          Number(cartItem.sum) + Number(cartItem.price),
         );
 
         const filteredCartItems = state.items.filter(
@@ -28,14 +28,14 @@ export default (state = initialState, action) => {
         return {
           ...state,
           items: [...filteredCartItems, updatedCartItem],
-          totalAmount: state.totalAmount + price,
+          totalAmount: Number(state.totalAmount) + Number(price),
         };
       } else {
         const newCartItem = new CartItem(1, price, title, price);
         return {
           ...state,
           items: [...state.items, newCartItem],
-          totalAmount: state.totalAmount + price,
+          totalAmount: Number(state.totalAmount) + Number(price),
         };
       }
     case REMOVE_FROM_CART:
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           items: [...filterItems, updatedCItem],
-          totalAmount: state.totalAmount - productToRemove.price,
+          totalAmount: Number(state.totalAmount) - Number(productToRemove.price),
         };
       } else {
         const filteredItems = state.items.filter(
@@ -63,7 +63,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           items: [...filteredItems],
-          totalAmount: state.totalAmount - productToRemove.price,
+          totalAmount: Number(state.totalAmount) - Number(productToRemove.price),
         };
       }
     case EMPTY_CART:
@@ -86,7 +86,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         items: updatedItems,
-        totalAmount: state.totalAmount - itemTotal,
+        totalAmount: Number(state.totalAmount) - Number(itemTotal),
       };
 
     default:

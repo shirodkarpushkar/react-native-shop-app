@@ -9,6 +9,7 @@ import OrdersScreen from '../screens/shop/OrdersScreen';
 
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import AuthScreen from '../screens/user/AuthScreen';
+import SignupScreen from '../screens/user/SignupScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -118,6 +119,13 @@ const AuthNavigator = () => {
         component={AuthScreen}
         options={{
           title: 'Login',
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignupScreen}
+        options={{
+          title: 'Register New User',
         }}
       />
     </Stack.Navigator>

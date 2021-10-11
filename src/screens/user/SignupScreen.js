@@ -9,7 +9,6 @@ import {
   Text,
 } from 'react-native';
 
-
 import Colors from '../../constants/Colors';
 import Card from '../../components/UI/Card';
 import Input from '../../components/UI/Input';
@@ -43,7 +42,7 @@ const formReducer = (state, action) => {
   }
 };
 
-const AuthScreen = props => {
+const SignupScreen = props => {
   const dispatch = useDispatch();
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -69,21 +68,13 @@ const AuthScreen = props => {
     [dispatchFormState],
   );
 
-  const signinHandler = () => {
-    console.log(
-      '🚀 ~ file: AuthScreen.js ~ line 77 ~ signinHandler ~ formState.inputValues.email',
-      formState.inputValues.email,
-    );
-
+  const signupHandler = () => {
     dispatch(
       authActions.signup(
         formState.inputValues.email,
         formState.inputValues.password,
       ),
     );
-  };
-  const register = () => {
-    props.navigation.navigate("SignUp")
   };
   return (
     <KeyboardAvoidingView style={styles.screen}>
@@ -115,16 +106,9 @@ const AuthScreen = props => {
             />
             <View style={styles.buttonContainer}>
               <Button
-                title="Login"
+                title="Submit"
                 color={Colors.primary}
-                onPress={() => signinHandler()}
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Register"
-                color={Colors.accent}
-                onPress={() => register()}
+                onPress={() => signupHandler()}
               />
             </View>
           </ScrollView>
@@ -155,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+export default SignupScreen;

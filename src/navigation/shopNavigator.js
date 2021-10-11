@@ -125,9 +125,11 @@ const AuthNavigator = () => {
 }
 
 const Container = () => {
+  const auth = null
   return (
     <NavigationContainer>
-      <DrawerNavigator />
+      {!auth && <AuthNavigator />}
+      {auth && <DrawerNavigator />}
     </NavigationContainer>
   );
 };

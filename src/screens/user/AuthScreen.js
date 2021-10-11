@@ -83,9 +83,8 @@ const AuthScreen = props => {
         );
       } catch (e) {
         Alert.alert('Invalid Login Credentials!', e.message, [{text: 'Okay'}]);
+        setBtnloader(false);
       }
-
-      setBtnloader(false);
     } else {
       Alert.alert('Invalid Form!', ' Please check your input', [
         {text: 'Okay'},

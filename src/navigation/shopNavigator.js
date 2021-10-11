@@ -16,6 +16,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditProductScreen from '../screens/user/EditProductsScreen';
+import {useSelector} from 'react-redux';
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -25,7 +26,6 @@ const defaultScreenOptions = {
 };
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
 
 const ProductsNavigator = () => {
   return (
@@ -130,10 +130,10 @@ const AuthNavigator = () => {
       />
     </Stack.Navigator>
   );
-}
+};
 
 const Container = () => {
-  const auth = null
+  const auth = useSelector(state => state.auth.token);
   return (
     <NavigationContainer>
       {!auth && <AuthNavigator />}

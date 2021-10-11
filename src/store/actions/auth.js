@@ -51,8 +51,9 @@ export const login = (email, password) => {
       }
 
       console.log('🚀 ~ file: auth.js ~ line 19 ~ return ~ result', result);
-
-      dispatch({type: LOGIN});
+      const token = result.idToken;
+      const userId = result.localId;
+      dispatch({type: LOGIN, token, userId});
     } catch (error) {
       throw error;
     }

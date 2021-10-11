@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE = 'AUTHENTICATE';
 const API_KEY = 'AIzaSyC434QymeOQCtxn3DJPcJJ9VnSyZ-pVrxc';
 const signupURL = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
@@ -63,6 +64,12 @@ export const login = (email, password) => {
     } catch (error) {
       throw error;
     }
+  };
+};
+export const logout = () => {
+  return async dispatch => {
+    await AsyncStorage.removeItem('userData');
+    dispatch({type: LOGOUT});
   };
 };
 export const authenticate = (userId, token) => {

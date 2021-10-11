@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
+import {View, SafeAreaView, StyleSheet, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -14,7 +15,7 @@ import AuthScreen from '../screens/user/AuthScreen';
 import SignupScreen from '../screens/user/SignupScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createDrawerNavigator, DrawerItemList} from '@react-navigation/drawer';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditProductScreen from '../screens/user/EditProductsScreen';
@@ -73,13 +74,31 @@ const AdminNavigator = () => {
     </Stack.Navigator>
   );
 };
+const CustomDrawerContent = props => {
+  const dispatch = useDispatch();
+  return (
+    <View style={styles.drawer}>
+      <SafeAreaView>
+        <DrawerItemList {...props} />
+        <Button
+          title="Logout"
+          color={Colors.primary}
+          onPress={() => {
+            dispatch(authActions.logout());
+          }}
+        />
+      </SafeAreaView>
+    </View>
+  );
+};
 
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContentOptions={{
         activeTintColor: Colors.accent,
-      }}>
+      }}
+      drawerContent={props => (<CustomDrawerContent {...props} />) }>
       <Drawer.Screen
         name="Products"
         component={ProductsNavigator}
@@ -140,11 +159,11 @@ const Container = () => {
   const getUserData = useCallback(async () => {
     const userData = await AsyncStorage.getItem('userData');
     if (userData) {
-      const user = JSON.parse(userData)
+      const user = JSON.parse(userData);
       console.log('user is logged in : ', user.userId);
       dispatch(authActions.authenticate(user.token, user.userId));
     }
-  }, [dispatch]); ;
+  }, [dispatch]);
   useEffect(() => {
     console.log('checking if user islogged in');
     getUserData();
@@ -157,4 +176,10 @@ const Container = () => {
     </NavigationContainer>
   );
 };
+const styles = StyleSheet.create({
+  drawer: {
+    flex: 1,
+    padding: 10,
+  },
+});
 export default Container;

@@ -69,14 +69,19 @@ const SignupScreen = props => {
     [dispatchFormState],
   );
 
-  const signupHandler = () => {
+  const signupHandler = async () => {
     if (formState.formIsValid) {
-      dispatch(
-        authActions.signup(
-          formState.inputValues.email,
-          formState.inputValues.password,
-        ),
-      );
+      try {
+        await dispatch(
+          authActions.signup(
+            formState.inputValues.email,
+            formState.inputValues.password,
+          ),
+        );
+        props.navigation.goBack();
+      } catch (e) {
+        Alert.alert('Invalid Login Credentials!', e.message, [{text: 'Okay'}]);
+      }
     } else {
       Alert.alert('Invalid Form!', ' Please check your input', [
         {text: 'Okay'},

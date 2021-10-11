@@ -82,7 +82,6 @@ const AuthScreen = props => {
           ),
         );
       } catch (e) {
-        console.log(e.toString())
         Alert.alert('Invalid Login Credentials!', e.message, [{text: 'Okay'}]);
       }
 

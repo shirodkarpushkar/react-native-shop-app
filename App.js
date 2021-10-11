@@ -17,20 +17,23 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Provider } from 'react-redux';
-import {combineReducers, createStore ,applyMiddleware} from 'redux';
-import ReduxThunk from 'redux-thunk'
+import {Provider} from 'react-redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
+import ReduxThunk from 'redux-thunk';
 
 import productsReducer from './src/store/reducers/products';
 import cartReducer from './src/store/reducers/cart';
 import ordersReducer from './src/store/reducers/orders';
-import ShopNavigator from './src/navigation/shopNavigator'
+import authReducer from './src/store/reducers/auth';
+
+import ShopNavigator from './src/navigation/shopNavigator';
 const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
   orders: ordersReducer,
+  auth: authReducer,
 });
-const store = createStore(rootReducer,applyMiddleware(ReduxThunk))
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -40,7 +43,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <ShopNavigator /> 
+      <ShopNavigator />
     </Provider>
   );
 };

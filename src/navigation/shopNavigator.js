@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Colors from '../constants/Colors';
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen';
@@ -16,7 +18,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditProductScreen from '../screens/user/EditProductsScreen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import * as authActions from '../store/actions/auth';
 
 const defaultScreenOptions = {
   headerStyle: {
@@ -133,6 +136,19 @@ const AuthNavigator = () => {
 };
 
 const Container = () => {
+  const dispatch = useDispatch();
+  const getUserData = useCallback(async () => {
+    const userData = await AsyncStorage.getItem('userData');
+    if (userData) {
+      const user = JSON.parse(userData)
+      console.log('user is logged in : ', user.userId);
+      dispatch(authActions.authenticate(user.token, user.userId));
+    }
+  }, [dispatch]); ;
+  useEffect(() => {
+    console.log('checking if user islogged in');
+    getUserData();
+  }, [getUserData]);
   const auth = useSelector(state => state.auth.token);
   return (
     <NavigationContainer>

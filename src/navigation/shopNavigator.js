@@ -80,13 +80,15 @@ const CustomDrawerContent = props => {
     <View style={styles.drawer}>
       <SafeAreaView>
         <DrawerItemList {...props} />
-        <Button
-          title="Logout"
-          color={Colors.primary}
-          onPress={() => {
-            dispatch(authActions.logout());
-          }}
-        />
+        <View style={styles.drawerBtn}>
+          <Button
+            title="Logout"
+            color={Colors.primary}
+            onPress={() => {
+              dispatch(authActions.logout());
+            }}
+          />
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -98,7 +100,7 @@ const DrawerNavigator = () => {
       drawerContentOptions={{
         activeTintColor: Colors.accent,
       }}
-      drawerContent={props => (<CustomDrawerContent {...props} />) }>
+      drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen
         name="Products"
         component={ProductsNavigator}
@@ -180,6 +182,9 @@ const styles = StyleSheet.create({
   drawer: {
     flex: 1,
     padding: 10,
+  },
+  drawerBtn: {
+    marginVertical: 20,
   },
 });
 export default Container;
